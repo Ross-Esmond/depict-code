@@ -1,0 +1,25 @@
+{
+  "name": "depict-code",
+  "version": "0.1.0",
+  "description": "A syntax highlighter with support for more complex visualizations of code.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ross-Esmond/depict-code.git"
+  },
+  "keywords": [
+    "syntax",
+    "highlight",
+    "code",
+    "visualize"
+  ],
+  "author": "Ross Esmond",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Ross-Esmond/depict-code/issues"
+  },
+  "homepage": "https://github.com/Ross-Esmond/depict-code#readme"
+}
