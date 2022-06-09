@@ -4,7 +4,8 @@
   "description": "A syntax highlighter with support for more complex visualizations of code.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js"
   },
   "repository": {
     "type": "git",
@@ -21,5 +22,9 @@
   "bugs": {
     "url": "https://github.com/Ross-Esmond/depict-code/issues"
   },
-  "homepage": "https://github.com/Ross-Esmond/depict-code#readme"
+  "homepage": "https://github.com/Ross-Esmond/depict-code#readme",
+  "dependencies": {
+    "nearley": "^2.20.1",
+    "pegjs": "^0.10.0"
+  }
 }
