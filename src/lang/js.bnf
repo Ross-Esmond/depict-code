@@ -1,0 +1,10 @@
+CodeBlock = WS? (FunctionDec | VarDec)*
+FunctionDec = "function" WS? "(" ")" WS? "{" CodeBlock? "}" WS?
+VarDec = ("var" | "const" | "let") WS (Identifier | Array) WS? ("=" WS? Expression)?
+<Expression> = (Number | Identifier | Array | Invoke) WS?
+Invoke = Identifier WS? "(" WS? Expression ")"
+Array = "[" WS? (Expression ("," WS? Expression) ","? WS?)? "]"
+Identifier = #"[a-zA-Z][a-zA-Z0-9]*"
+Number = #"[0-9]"
+WS = (" " | "\t" | "\r" | "\n" | Comment)+
+Comment = "//" #"[^\n]*" "\n"
