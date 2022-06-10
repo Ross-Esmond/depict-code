@@ -7,5 +7,6 @@
                  [org.clojure/core.match "1.0.0"]]
   :main ^:skip-aot lang.core
   :target-path "target/%s"
-  :profiles {:dev {:plugins [[com.jakemccrary/lein-test-refresh "0.25.0"]]}
+  :profiles {:dev {:plugins [[com.jakemccrary/lein-test-refresh "0.25.0"]
+                             [venantius/ultra "0.6.0"]]}
              :uberjar {:aot :all}})

@@ -1,10 +1,21 @@
-CodeBlock = WS? (FunctionDec | VarDec)*
-FunctionDec = "function" WS? "(" ")" WS? "{" CodeBlock? "}" WS?
-VarDec = ("var" | "const" | "let") WS (Identifier | Array) WS? ("=" WS? Expression)?
-<Expression> = (Number | Identifier | Array | Invoke) WS?
-Invoke = Identifier WS? "(" WS? Expression ")"
-Array = "[" WS? (Expression ("," WS? Expression) ","? WS?)? "]"
+CodeBlock = WS? (FunctionDec / VarDec / Return / expression)*
+FunctionDec = "function" WS? Identifier? WS? "(" ")" WS? "{" CodeBlock? "}" WS?
+VarDec = ("var" | "const" | "let") WS (Identifier | Array) WS? ("=" WS? expression)?
+Return = "return" WS expression?
+<expression> = (Number | binary | Identifier | PropAccess | Array | Invoke | JSX) WS?
+<binary> = expression WS? ("<" | ">" | "==" | ">=" | "<=" | "+" | "-" | "*" | "/") WS? expression
+Invoke = expression WS? "(" WS? expression? ")"
+Array = "[" WS? (expression ("," WS? expression) ","? WS?)? "]"
 Identifier = #"[a-zA-Z][a-zA-Z0-9]*"
+PropAccess = Identifier WS? ("." WS? Identifier)+
 Number = #"[0-9]"
+JSX = TagClosed | Tag
+<IJSX> = TagClosed | Tag
+TagClosed = "<" Identifier WS? (Prop WS?)* "/>"
+Tag = "<" Identifier WS? (Prop WS?)* ">" InnerJSX "</" Identifier ">"
+Prop = #"[a-zA-Z]*" "=" (("\"" #"[a-zA-Z]*" "\"") | JS)
+<InnerJSX> = (IJSX | JS | PlainText)*
+PlainText = #"[^\{\<]+"
+JS = "{" WS? expression "}"
 WS = (" " | "\t" | "\r" | "\n" | Comment)+
 Comment = "//" #"[^\n]*" "\n"
