@@ -1,9 +1,9 @@
 CodeBlock = WS? (FunctionDec / VarDec / Return / expression)*
-FunctionDec = "function" WS? Identifier? WS? "(" ")" WS? "{" CodeBlock? "}" WS?
+FunctionDec = "function" (WS Identifier)? WS? "(" ")" WS? "{" CodeBlock? "}" WS?
 VarDec = ("var" | "const" | "let") WS (Identifier | Array) WS? ("=" WS? expression)?
 Return = "return" WS expression?
-<expression> = (Number | binary | Identifier | PropAccess | Array | Invoke | JSX) WS?
-<binary> = expression WS? ("<" | ">" | "==" | ">=" | "<=" | "+" | "-" | "*" | "/") WS? expression
+<expression> = (Number | Binary | Identifier | PropAccess | Array | Invoke | JSX) WS?
+Binary = expression WS? ("<" | ">" | "==" | ">=" | "<=" | "+" | "-" | "*" | "/") WS? expression
 Invoke = expression WS? "(" WS? expression? ")"
 Array = "[" WS? (expression ("," WS? expression) ","? WS?)? "]"
 Identifier = #"[a-zA-Z][a-zA-Z0-9]*"
@@ -17,5 +17,5 @@ Prop = #"[a-zA-Z]*" "=" (("\"" #"[a-zA-Z]*" "\"") | JS)
 <InnerJSX> = (IJSX | JS | PlainText)*
 PlainText = #"[^\{\<]+"
 JS = "{" WS? expression "}"
-WS = (" " | "\t" | "\r" | "\n" | Comment)+
-Comment = "//" #"[^\n]*" "\n"
+WS = (#"[ \t\r\n]+" | Comment)+
+Comment = "//" #"[^\n]*"
