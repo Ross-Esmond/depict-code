@@ -37,20 +37,28 @@
          [:frag & items] (join (map spans items))
          (s :guard string?) s))
 
-(defn htmlVisit [node]
-        (match node
-               [:Number n] ["number" n]
-               [(:or :CodeBlock :WS) & items] (vec (concat [:frag] (map htmlVisit items)))
-               [:VarDec s & more] (vec (concat [:frag ["keyword" s]] (map htmlVisit more)))
-               [:Identifier id] ["identifier" id]
-               (s :guard string?) s
-               :else (log node)))
+(defmulti htmlVisit #(cond (vector? %1) (first %1) (string? %1) :str :else %1))
+(defmethod htmlVisit ::Number [[_ n]] ["number" n])
+(defmethod htmlVisit ::no-print [[_ & items]] (vec (concat [:frag] (map htmlVisit items))))
+(defmethod htmlVisit ::VarDec [[_ s & items]] (vec (concat [:frag ["keyword" s]] (map htmlVisit items))))
+(defmethod htmlVisit ::Identifier [[_ id]] ["identifier" id])
+(defmethod htmlVisit :str [s] s)
+(defmethod htmlVisit :default [s] (log s))
+
+(derive ::CodeBlock ::no-print)
+(derive ::WS ::no-print)
+
+(defn localize [node]
+        (cond
+          (keyword? node) (keyword "lang.core" (name node))
+          (vector? node) (vec (map localize node))
+          :else node))
 
 (defn lineify [html]
-        (str "<span class=\"line\">" (replace html "\n" "</span><br /><span class=\"line\">") "</span>"))
+        (str "<span class=\"line\">" (replace html "\n" "</span><br />\n<span class=\"line\">") "</span>"))
 
 (defn getHtml [node]
-        (lineify (spans (htmlVisit node))))
+        (lineify (spans (htmlVisit (localize node)))))
 
-(defn -main [& args] (pp/pprint (parse (slurp "./src/lang/target.js"))))
+(defn -main [& args] (pp/pprint (getHtml (parse (slurp "./src/lang/target.js")))))
 
