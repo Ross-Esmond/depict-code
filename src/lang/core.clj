@@ -25,6 +25,8 @@
 
 (def keywords #{"function" "var" "let" "const" "return"})
 
+(defn lower-case? [s] (= (lower-case (first s)) (str (first s))))
+
 (defmulti htmlVisit #(cond (vector? %1) (first %1) (string? %1) :str :else %1))
 (defmethod htmlVisit ::Number [[_ n]] ["number" n])
 (defmethod htmlVisit ::Comment [[_ & items]] ["comment" (join items)])
@@ -33,13 +35,17 @@
         (match node
                [::Prop title "=" "\"" value "\""] [:frag ["property" title] (str "=\"" value "\"")]
                [::Prop title "=" js] [:frag ["property" title] "=" (htmlVisit js)]))
+(defmethod htmlVisit ::Tag [[t lb [id tag] & items]]
+        (vec (concat [:frag lb [(if (lower-case? tag) "element" "component") tag]] (map htmlVisit items))))
 (defmethod htmlVisit :str [s] (if (contains? keywords s) ["keyword" s] s))
 (defmethod htmlVisit :default [s]
         (match s
                [_ & items] (vec (concat [:frag] (map htmlVisit items)))
                :else (log s)))
 
+(derive ::TagClosed ::Tag)
 (derive ::Identifier ::named)
+(derive ::PlainText ::named)
 
 (defn localize [node]
         (cond

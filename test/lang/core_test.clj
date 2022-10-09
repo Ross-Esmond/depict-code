@@ -61,28 +61,38 @@
    ["foo.bar(5)" [:CodeBlock [:Invoke [:PropAccess [:Identifier "foo"] "." [:Identifier "bar"]] "(" [:Number "5"] ")"]]
     ["line" ["identifier" "foo"] "." ["identifier" "bar"] "(" ["number" "5"] ")"]]
    ["<div />" [:CodeBlock [:JSX [:TagClosed "<" [:Identifier "div"] [:WS " "] "/>"]]]
-    ["line" "&lt;" ["identifier" "div"] " />"]]
+    ["line" "&lt;" ["element" "div"] " />"]]
    ["<div>text</div>" [:CodeBlock [:JSX [:Tag "<" [:Identifier "div"] ">" [:PlainText "text"] "</" [:Identifier "div"] ">"]]]
-    ["line" "&lt;" ["identifier" "div"] ">text&lt;/" ["identifier" "div"] ">"]]
+    ["line" "&lt;" ["element" "div"] ">" ["plaintext" "text"] "&lt;/" ["element" "div"] ">"]]
+   ["<div>a\nb</div>"
+    [:CodeBlock [:JSX [:Tag "<" [:Identifier "div"] ">"
+                       [:PlainText "a"] [:WS "\n"] [:PlainText "b"] "</" [:Identifier "div"] ">"]]]
+    [:frag ["line" "&lt;" ["element" "div"] ">" ["plaintext" "a"]] "\n"
+     ["line" ["plaintext" "b"] "&lt;/" ["element" "div"] ">"]]]
+   ["<a>t<b /></a>"
+    [:CodeBlock [:JSX [:Tag "<" [:Identifier "a"] ">"
+                       [:PlainText "t"] [:TagClosed "<" [:Identifier "b"] [:WS " "] "/>"] "</" [:Identifier "a"] ">"]]]
+    ["line" "&lt;" ["element" "a"] ">" ["plaintext" "t"] "&lt;" ["element" "b"] " />&lt;/" ["element" "a"] ">"]]
    ["<div>{5}</div>"
     [:CodeBlock [:JSX [:Tag "<" [:Identifier "div"] ">" [:JS "{" [:Number "5"] "}"] "</" [:Identifier "div"] ">"]]]
-    ["line" "&lt;" ["identifier" "div"] ">{" ["number" "5"] "}&lt;/" ["identifier" "div"] ">"]]
+    ["line" "&lt;" ["element" "div"] ">{" ["number" "5"] "}&lt;/" ["element" "div"] ">"]]
    ["<div id=\"a\" />"
     [:CodeBlock [:JSX [:TagClosed "<" [:Identifier "div"] [:WS " "] [:Prop "id" "=" "\"" "a" "\""] [:WS " "] "/>"]]]
-    ["line" "&lt;" ["identifier" "div"] " " ["property" "id"] "=\"a\" />"]]
+    ["line" "&lt;" ["element" "div"] " " ["property" "id"] "=\"a\" />"]]
    ["<div id={5} />" [:CodeBlock [:JSX [:TagClosed "<" [:Identifier "div"] [:WS " "]
                                         [:Prop "id" "=" [:JS "{" [:Number "5"] "}"]] [:WS " "] "/>"]]]
-    ["line" "&lt;" ["identifier" "div"] " " ["property" "id"] "={" ["number" "5"] "} />"]]
+    ["line" "&lt;" ["element" "div"] " " ["property" "id"] "={" ["number" "5"] "} />"]]
    ["<div id={5}>foobar</div>"
     [:CodeBlock [:JSX [:Tag "<" [:Identifier "div"] [:WS " "] [:Prop "id" "=" [:JS "{" [:Number "5"] "}"]] ">"
                        [:PlainText "foobar"] "</" [:Identifier "div"] ">"]]]
-    ["line" "&lt;" ["identifier" "div"] " " ["property" "id"] "={" ["number" "5"] "}>foobar</" ["identifier" "div"] ">"]]
+    ["line" "&lt;" ["element" "div"] " " ["property" "id"] "={" ["number" "5"] "}>"
+     ["plaintext" "foobar"] "</" ["element" "div"] ">"]]
    ["<div><div>foo</div></div>"
     [:CodeBlock [:JSX [:Tag "<" [:Identifier "div"] ">"
                        [:Tag "<" [:Identifier "div"] ">" [:PlainText "foo"] "</" [:Identifier "div"] ">"]
                        "</" [:Identifier "div"] ">"]]]
-    ["line" "&lt;" ["identifier" "div"] ">&lt;"
-     ["identifier" "div"] ">foo&lt;/" ["identifier" "div"] ">&lt;/" ["identifier" "div"] ">"]]
+    ["line" "&lt;" ["element" "div"] ">&lt;"
+     ["element" "div"] ">" ["plaintext" "foo"] "&lt;/" ["element" "div"] ">&lt;/" ["element" "div"] ">"]]
    ["foo.bar.baz" [:CodeBlock [:PropAccess [:Identifier "foo"] "." [:Identifier "bar"] "." [:Identifier "baz"]]]
     ["line" ["identifier" "foo"] "." ["identifier" "bar"] "." ["identifier" "baz"]]]
    ["5 <= 2" [:CodeBlock [:Binary [:Number "5"] [:WS " "] "<=" [:WS " "] [:Number "2"]]]

@@ -1,5 +1,6 @@
 function AppointmentField() {
   const [appointment, setAppointment] = useState()
+  // notice the need to convert the date
   const asDate = dateInputToDate(appointment)
 
   return <div>

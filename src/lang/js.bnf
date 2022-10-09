@@ -12,10 +12,10 @@ Number = #"[0-9]"
 JSX = TagClosed | Tag
 <IJSX> = TagClosed | Tag
 TagClosed = "<" Identifier WS? (Prop WS?)* "/>"
-Tag = "<" Identifier WS? (Prop WS?)* ">" InnerJSX "</" Identifier ">"
+Tag = "<" Identifier WS? (Prop WS?)* ">" WS? InnerJSX "</" Identifier ">"
 Prop = #"[a-zA-Z]*" "=" (("\"" #"[a-zA-Z]*" "\"") | JS)
-<InnerJSX> = (IJSX | JS | PlainText)*
-PlainText = #"[^\{\<]+"
+<InnerJSX> = ((IJSX | JS | PlainText) WS?)*
+PlainText = #"[^\{\<\n]+"
 JS = "{" WS? expression "}"
 WS = (#"[ \t\r\n]+" | Comment)+
 Comment = "//" #"[^\n]*"

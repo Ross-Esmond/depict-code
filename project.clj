@@ -2,7 +2,7 @@
   :description "A syntax highlighter with support for more complex visualizations of code."
   :url "https://github.com/Ross-Esmond/depict-code"
   :license {:name "MIT"}
-  :dependencies [[org.clojure/clojure "1.8.0"]
+  :dependencies [[org.clojure/clojure "1.11.1"]
                  [instaparse "1.4.12"]
                  [org.clojure/core.match "1.0.0"]]
   :main ^:skip-aot lang.core

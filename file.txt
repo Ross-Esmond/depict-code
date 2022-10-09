@@ -1,0 +1,14 @@
+<span class="line"><span class="keyword">function</span> <span class="identifier">AppointmentField</span>() {</span>
+<span class="line">  <span class="keyword">const</span> [<span class="identifier">appointment</span>, <span class="identifier">setAppointment</span>] = <span class="identifier">useState</span>()</span>
+<span class="line">  <span class="comment">// notice the need to convert the date</span></span>
+<span class="line">  <span class="keyword">const</span> <span class="identifier">asDate</span> = <span class="identifier">dateInputToDate</span>(<span class="identifier">appointment</span>)</span>
+<span class="line"></span>
+<span class="line">  <span class="keyword">return</span> &lt;<span class="identifier">div</span>></span>
+<span class="line">    &lt;<span class="identifier">DateField</span> <span class="property">value</span>={<span class="identifier">appointment</span>} <span class="property">onChange</span>={<span class="identifier">setAppointment</span>} /></span>
+<span class="line">    &lt;<span class="identifier">Error</span> <span class="property">show</span>={<span class="identifier">asDate</span>.<span class="identifier">valueOf</span>() &lt;= <span class="identifier">Date</span>.<span class="identifier">now</span>()}></span>
+<span class="line">      <span class="plaintext">Date must be in the future.</span></span>
+<span class="line">    &lt;/<span class="identifier">Error</span>></span>
+<span class="line">    &lt;<span class="identifier">button</span> <span class="property">onClick</span>={<span class="identifier">handleSubmit</span>}><span class="plaintext">Set Appointment</span>&lt;/<span class="identifier">button</span>></span>
+<span class="line">  &lt;/<span class="identifier">div</span>></span>
+<span class="line">}</span>
+<span class="line"></span>
